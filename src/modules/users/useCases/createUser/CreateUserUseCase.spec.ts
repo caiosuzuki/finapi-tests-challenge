@@ -30,7 +30,7 @@ describe("Create user", () => {
             const password = "johnnyspassword123";
     
             await createUserUseCase.execute({name, email, password});
-            const user = await createUserUseCase.execute({name, email, password});
+            await createUserUseCase.execute({name, email, password});
         }).rejects.toBeInstanceOf(CreateUserError);
     })
 })
