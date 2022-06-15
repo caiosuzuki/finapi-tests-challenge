@@ -38,7 +38,7 @@ describe("Get Balance Controller", () => {
     it("should be able to get the balance", async () => {
         await createUser();
         const responseToken = await authenticateUser();
-      const { token } = responseToken.body;
+        const { token } = responseToken.body;
         await request(app)
             .post("/api/v1/statements/deposit")
             .send({
