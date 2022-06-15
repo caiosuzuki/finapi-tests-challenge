@@ -5,7 +5,7 @@ import createConnection from "../../../../database";
 
 let connection: Connection;
 
-describe("Show User Profile Controller", () => {
+describe("Create Statement Controller", () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -16,7 +16,7 @@ describe("Show User Profile Controller", () => {
     await connection.close();
   });
 
-  it("should be able to get an user's profile", async () => {
+  it("should be able to create a deposit", async () => {
     await request(app)
       .post("/api/v1/users")
       .send({
@@ -33,12 +33,17 @@ describe("Show User Profile Controller", () => {
       const { token } = responseToken.body;
 
       const response = await request(app)
-      .get("/api/v1/profile")
+      .post("/api/v1/statements/deposit")
+      .send({
+        amount: 100,
+        description: "Saving some money",
+      })
       .set({
         Authorization: `Bearer ${token}`
       });
 
-    expect(response.status).toBe(200);
-    expect(response.body.name).toBe("Hannah");
+    expect(response.status).toBe(201);
+    expect(response.body.amount).toBe(100);
+    expect(response.body.description).toBe("Saving some money");
   });
 });
